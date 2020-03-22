@@ -46,8 +46,6 @@ function decode(expr) {
     arr.push(nextWord);
   }
 
-  console.log(arr);
-
   for (let i = 0; i < arr.length; i++) {
     if (arr[i] === '**********') {
       res += ' ';
@@ -55,12 +53,18 @@ function decode(expr) {
       let word = +arr[i];
       let key = '';
 
-      while (word % 100 !== 0) {
-        let wordStr = word / (String(word).length - 2);
+      while (word !== 0) {
+        let wordStr = Math.trunc(word % 100);
         let symb = +wordStr === 10 ? '.' : '-';
+
         key += symb;
-        word = word / 100;
+
+        word = Math.trunc(word / 100);
       }
+      key = key
+        .split('')
+        .reverse()
+        .join('');
 
       res += MORSE_TABLE[key];
     }
